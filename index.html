@@ -4,7 +4,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap">
 <style>
-/* Layout: white paper business report with navy structure and gold hairline accents. Mission first; tasks; 相談窓口; Instagram; trend & summary. */
+/* Always light (white + navy + gold), even when the viewer's OS is in dark mode. Layout: white paper business report with navy structure and gold hairline accents. Mission first; tasks; 相談窓口; Instagram; trend & summary. */
 :root {
   --bg: #FFFFFF;
   --surface: #FFFFFF;
@@ -17,21 +17,9 @@
   --alert: #A33A2E;
   --ok: #3F6B4F;
   --on-navy: #FFFFFF;
+  color-scheme: light;
   --font: "Noto Serif JP", "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0B0B0C; --surface: #141416; --sunken: #1A1B1F; --ink: #EDEEF2; --muted: #9AA0AD; --line: #2A2D35;
-    --navy: #9DB3DE; --gold: #D6B566; --alert: #E58A7E; --ok: #86B897; --on-navy: #0B0B0C;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0B0B0C; --surface: #141416; --sunken: #1A1B1F; --ink: #EDEEF2; --muted: #9AA0AD; --line: #2A2D35;
-  --navy: #9DB3DE; --gold: #D6B566; --alert: #E58A7E; --ok: #86B897; --on-navy: #0B0B0C;
-  color-scheme: dark;
-}
-
 * { box-sizing: border-box; }
 body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.75; font-weight: 400; }
 a { color: var(--navy); text-underline-offset: 3px; }
