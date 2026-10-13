@@ -1,0 +1,645 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex, nofollow"><style>:root{padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style></head><body>
+<title>梅光マーケ タスクボード</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap">
+<style>
+/* Layout: white paper business report with navy structure and gold hairline accents. Mission first; tasks; 相談窓口; Instagram; trend & summary. */
+:root {
+  --bg: #FFFFFF;
+  --surface: #FFFFFF;
+  --sunken: #F4F6FA;
+  --ink: #1A1F2B;
+  --muted: #5F6675;
+  --line: #DCE0E8;
+  --navy: #1B2A4A;
+  --gold: #A8873A;
+  --alert: #A33A2E;
+  --ok: #3F6B4F;
+  --on-navy: #FFFFFF;
+  --font: "Noto Serif JP", "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0B0B0C; --surface: #141416; --sunken: #1A1B1F; --ink: #EDEEF2; --muted: #9AA0AD; --line: #2A2D35;
+    --navy: #9DB3DE; --gold: #D6B566; --alert: #E58A7E; --ok: #86B897; --on-navy: #0B0B0C;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0B0B0C; --surface: #141416; --sunken: #1A1B1F; --ink: #EDEEF2; --muted: #9AA0AD; --line: #2A2D35;
+  --navy: #9DB3DE; --gold: #D6B566; --alert: #E58A7E; --ok: #86B897; --on-navy: #0B0B0C;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.75; font-weight: 400; }
+a { color: var(--navy); text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 16px; }
+
+/* Masthead */
+.hero { padding-block: 28px 0; }
+.hero-card { border-top: 4px solid var(--navy); border-bottom: 1px solid var(--line); padding-block: 18px 20px; display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: flex-end; justify-content: space-between; }
+.mission { min-width: 0; }
+.mission h1 { margin: 0; font-weight: 700; font-size: clamp(30px, 5.6vw, 46px); line-height: 1.2; letter-spacing: .06em; color: var(--navy); text-wrap: balance; }
+.mission h1::after { content: ""; display: block; width: 56px; height: 2px; background: var(--gold); margin-top: 12px; }
+.mission .team { margin: 10px 0 0; font-size: 13px; color: var(--muted); letter-spacing: .08em; }
+.controls { display: grid; gap: 4px; }
+.controls label { font-size: 12px; color: var(--muted); letter-spacing: .1em; }
+select, textarea, input[type="text"] { font: inherit; font-size: 15px; padding: 6px 10px; border-radius: 2px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); max-width: 100%; }
+.controls select { min-width: 230px; }
+.sync { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+main.wrap { padding-block: 26px 40px; display: grid; gap: 40px; }
+.slot { display: grid; gap: 40px; min-width: 0; }
+h2 { font-weight: 700; font-size: 18px; margin: 0 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--navy); color: var(--navy); display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; letter-spacing: .06em; text-wrap: balance; }
+h2 small { font-size: 12px; color: var(--muted); font-weight: 400; letter-spacing: .02em; }
+.panel h2 { border-bottom-color: var(--line); }
+
+.notice { border-left: 2px solid var(--gold); background: var(--sunken); padding: 10px 14px; font-size: 13px; }
+
+/* Attention */
+.alerts { display: grid; }
+.alert { display: grid; grid-template-columns: 6.5em 1fr; gap: 0 14px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.alert .what { min-width: 0; overflow-wrap: anywhere; }
+.alert .who { font-weight: 700; }
+.alert .detail { grid-column: 2; color: var(--muted); font-size: 13px; min-width: 0; overflow-wrap: anywhere; }
+.allclear { color: var(--muted); padding: 10px 0; border-bottom: 1px solid var(--line); }
+
+/* Numbers */
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--line); }
+.kpi { padding: 14px 18px; min-width: 0; border-left: 1px solid var(--line); }
+.kpi:first-child { border-left: 0; }
+.kpi .k { font-size: 12px; color: var(--muted); letter-spacing: .08em; }
+.kpi .v { font-size: 32px; font-weight: 700; line-height: 1.3; font-variant-numeric: tabular-nums; }
+.kpi .v small { font-size: 14px; color: var(--muted); font-weight: 400; }
+.kpi.lead { background: var(--navy); color: var(--on-navy); }
+.kpi.lead .k, .kpi.lead .v small { color: var(--on-navy); opacity: .8; }
+.bar { height: 4px; background: var(--line); overflow: hidden; }
+.bar > i { display: block; height: 100%; background: var(--navy); }
+.kpi.lead .bar { margin-top: 8px; background: rgba(127, 127, 127, .35); }
+.kpi.lead .bar > i { background: var(--gold); }
+
+/* People */
+.people { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 24px 28px; }
+.person { min-width: 0; display: grid; gap: 8px; align-content: start; border-top: 2px solid var(--navy); padding-top: 10px; }
+.person header { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: baseline; }
+.person .name { font-weight: 700; font-size: 18px; line-height: 1.35; min-width: 0; letter-spacing: .04em; }
+.person .name small { display: block; font-size: 12px; color: var(--muted); font-weight: 400; letter-spacing: 0; }
+.person .rate { font-weight: 700; font-size: 18px; text-align: right; line-height: 1.3; color: var(--navy); font-variant-numeric: tabular-nums; }
+.person .rate small { display: block; color: var(--muted); font-size: 12px; font-weight: 400; }
+.tasks { list-style: none; margin: 0; padding: 0; display: grid; }
+.task { display: grid; grid-template-columns: 5.6em 1fr; gap: 0 10px; padding: 8px 0; border-top: 1px solid var(--line); align-items: baseline; }
+.task .t { min-width: 0; overflow-wrap: anywhere; }
+.task.done .t { color: var(--muted); }
+.task .m { grid-column: 2; font-size: 12px; color: var(--muted); min-width: 0; overflow-wrap: anywhere; }
+.task .m.blocker { color: var(--alert); }
+
+.chip { display: inline-block; font-size: 11px; padding: 0 6px; border: 1px solid currentColor; white-space: nowrap; line-height: 1.7; letter-spacing: .04em; justify-self: start; }
+.chip.done { color: var(--ok); }
+.chip.doing { color: var(--navy); }
+.chip.todo { color: var(--muted); border-color: var(--line); }
+.chip.risk { color: var(--gold); }
+.chip.late, .chip.blocked, .chip.open { color: var(--alert); font-weight: 700; }
+.chip.resolved { color: var(--muted); }
+.chip.want { color: var(--navy); }
+
+/* 相談窓口 */
+.consult-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 28px; align-items: start; }
+.consult-form { background: var(--sunken); border-top: 2px solid var(--navy); padding: 16px 18px; display: grid; gap: 12px; }
+.consult-form .lead { margin: 0; font-size: 13px; color: var(--muted); }
+.field { display: grid; gap: 4px; min-width: 0; }
+.field > label, .field > .lbl { font-size: 12px; color: var(--muted); letter-spacing: .08em; }
+.field select, .field textarea { width: 100%; }
+.field textarea { min-height: 120px; resize: vertical; line-height: 1.7; }
+.wants { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 14px; }
+.wants label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+.btn { font: inherit; font-size: 14px; font-weight: 700; letter-spacing: .06em; padding: 8px 16px; border: 1px solid var(--navy); background: var(--navy); color: var(--on-navy); border-radius: 2px; cursor: pointer; justify-self: start; }
+.btn:disabled { opacity: .5; cursor: default; }
+.btn.ghost { background: transparent; color: var(--navy); font-weight: 400; padding: 4px 12px; font-size: 13px; }
+.form-msg { font-size: 13px; color: var(--muted); min-height: 1.5em; }
+.form-msg.err { color: var(--alert); }
+
+.consults { display: grid; gap: 0; }
+.consult { border-top: 1px solid var(--line); padding: 14px 0; display: grid; gap: 8px; min-width: 0; }
+.consult:first-child { border-top: 2px solid var(--navy); }
+.consult .head { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; }
+.consult .who { font-weight: 700; }
+.consult .when { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.consult .rel { font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+.consult .body { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.hint { border-left: 2px solid var(--gold); padding: 8px 0 8px 14px; display: grid; gap: 4px; }
+.hint .ttl { font-size: 12px; color: var(--gold); font-weight: 700; letter-spacing: .1em; }
+.hint .txt { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14px; }
+.reply { background: var(--sunken); padding: 8px 12px; font-size: 14px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.reply b { color: var(--navy); }
+.owner-tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.owner-tools input { flex: 1 1 220px; min-width: 0; font-size: 14px; }
+
+/* Panels */
+.panel { min-width: 0; }
+.duo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; }
+.chart svg { width: 100%; height: auto; display: block; }
+.summary-text { white-space: pre-wrap; margin: 0; max-width: 65ch; }
+.muted { color: var(--muted); font-size: 13px; }
+
+/* Instagram */
+.ig { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.5fr); border: 1px solid var(--line); }
+.ig > .panel { padding: 14px 18px; border-left: 1px solid var(--line); }
+.ig > .panel:first-child { border-left: 0; }
+.goal .k { font-size: 12px; color: var(--muted); letter-spacing: .08em; }
+.goal .v { font-size: 30px; font-weight: 700; line-height: 1.3; color: var(--navy); font-variant-numeric: tabular-nums; }
+.goal .v small { font-size: 14px; color: var(--muted); font-weight: 400; }
+.goal .bar { margin-block: 8px 6px; }
+.goal .note { font-size: 12px; color: var(--muted); }
+.recent h2 { font-size: 14px; }
+.posts { list-style: none; margin: 0; padding: 0; display: grid; }
+.post { display: grid; grid-template-columns: 3.2em 1fr auto; gap: 10px; align-items: baseline; padding: 5px 0; border-top: 1px solid var(--line); }
+.post:first-child { border-top: 0; }
+.post .d { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.post .ttl { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; }
+.post .vw { font-weight: 700; font-size: 14px; font-variant-numeric: tabular-nums; }
+.post.top .vw { color: var(--gold); }
+
+.empty { border: 1px solid var(--line); padding: 28px 20px; text-align: center; color: var(--muted); }
+.empty strong { display: block; color: var(--ink); font-size: 16px; margin-bottom: 4px; }
+
+footer.wrap { padding-block: 16px 32px; color: var(--muted); font-size: 12px; border-top: 1px solid var(--line); }
+
+@media (max-width: 900px) {
+  .ig { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .ig .recent { grid-column: 1 / -1; border-left: 0; border-top: 1px solid var(--line); }
+  .consult-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kpi:nth-child(3) { border-left: 0; }
+  .kpi:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .duo { grid-template-columns: minmax(0, 1fr); }
+  .ig { grid-template-columns: minmax(0, 1fr); }
+  .ig > .panel { border-left: 0; border-top: 1px solid var(--line); }
+  .ig > .panel:first-child { border-top: 0; }
+  .controls, .controls select { width: 100%; min-width: 0; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .bar > i { transition: width .6s ease; }
+}
+
+/* Team numeric goals */
+.goals { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 20px; }
+.goal-card { border: 1px solid var(--line); border-top: 3px solid var(--gold); padding: 14px 18px; display: grid; gap: 10px; min-width: 0; }
+.goal-card header { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; justify-content: space-between; }
+.goal-card .gname { font-weight: 700; font-size: 18px; color: var(--navy); letter-spacing: .04em; }
+.goal-card .gmem { font-size: 13px; color: var(--muted); }
+.goal-card .gnote { margin: 0; font-size: 13px; color: var(--muted); }
+.metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px 20px; }
+.metric { min-width: 0; }
+.metric .mk { font-size: 12px; color: var(--muted); letter-spacing: .08em; }
+.metric .mv { font-size: 26px; font-weight: 700; line-height: 1.3; color: var(--navy); font-variant-numeric: tabular-nums; }
+.metric .mv small { font-size: 13px; color: var(--muted); font-weight: 400; }
+.metric .bar { margin-block: 6px 4px; }
+.metric .note, .plan { font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+.plan { border-top: 1px solid var(--line); padding-top: 8px; }
+
+/* Teamsに送る */
+.tabs { display: flex; flex-wrap: wrap; gap: 0; border-bottom: 1px solid var(--line); margin-bottom: 16px; }
+.tab { font: inherit; font-size: 14px; background: none; border: 0; border-bottom: 2px solid transparent; color: var(--muted); padding: 8px 16px; cursor: pointer; margin-bottom: -1px; }
+.tab[aria-selected="true"] { color: var(--navy); border-bottom-color: var(--navy); font-weight: 700; }
+.send-grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 28px; align-items: start; }
+.compose { display: grid; gap: 12px; min-width: 0; }
+.pane { display: grid; gap: 12px; }
+.pane[hidden] { display: none; }
+.lead { margin: 0; font-size: 13px; color: var(--muted); }
+.field { display: grid; gap: 4px; min-width: 0; }
+.field > label, .field > .lbl, .out .lbl { font-size: 12px; color: var(--muted); letter-spacing: .08em; }
+.field select, .field textarea, .field input[type="text"] { width: 100%; }
+.field textarea { min-height: 120px; resize: vertical; line-height: 1.7; }
+.wants { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 14px; }
+.wants label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+.rows { display: grid; gap: 6px; }
+.row { display: grid; grid-template-columns: minmax(0, 8em) minmax(0, 1fr) minmax(0, 9.5em) auto; gap: 6px; align-items: center; }
+.row select, .row input { width: 100%; font-size: 14px; }
+input[type="date"] { font: inherit; font-size: 14px; padding: 5px 8px; border-radius: 2px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.btn.x { padding: 4px 10px; }
+.out { display: grid; gap: 8px; background: var(--sunken); border-top: 2px solid var(--navy); padding: 14px 16px; min-width: 0; }
+.out textarea { width: 100%; min-height: 220px; font-size: 14px; line-height: 1.7; resize: vertical; background: var(--surface); }
+.out-actions { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+.out .muted { margin: 0; }
+
+@media (max-width: 900px) {
+  .send-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+  .row { grid-template-columns: minmax(0, 1fr) auto; }
+  .row select, .row input[type="text"] { grid-column: 1 / -1; }
+  .row input[type="date"] { grid-column: 1; }
+}
+</style>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="hero-card">
+      <div class="mission">
+        <h1>梅光を勝たせよう。</h1>
+        <p class="team">梅光学院 マーケティングチーム　業務進捗管理</p>
+      </div>
+      <div class="controls">
+        <label for="week">対象期間</label>
+        <select id="week"><option>読み込み中…</option></select>
+        <div class="sync" id="sync">最終更新：—</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="slot" id="top"></div>
+
+  <section id="send" aria-labelledby="send-h">
+    <h2 id="send-h">Teamsに送る <small>ここで文面を作ってコピーし、Teamsに貼って送ってください。次の更新でボードに反映されます</small></h2>
+    <div class="tabs" role="tablist" aria-label="送る内容">
+      <button class="tab" role="tab" id="tab-plan" aria-selected="true" aria-controls="pane-plan" type="button">行動計画</button>
+      <button class="tab" role="tab" id="tab-num" aria-selected="false" aria-controls="pane-num" type="button">数値報告</button>
+      <button class="tab" role="tab" id="tab-consult" aria-selected="false" aria-controls="pane-consult" type="button">相談</button>
+    </div>
+    <div class="send-grid">
+      <form class="compose" id="compose" novalidate>
+        <div id="pane-plan" role="tabpanel" aria-labelledby="tab-plan" class="pane">
+          <p class="lead">数値目標に対して、チームで決めた「やること」を報告します。報告したやることは、担当者のタスクとしてメンバー別タスクに追加されます。</p>
+          <div class="field"><label for="p-goal">どの目標に対する計画か</label><select id="p-goal"></select></div>
+          <div class="field"><label for="p-by">報告する人</label><select id="p-by"></select></div>
+          <div class="field">
+            <span class="lbl">やること（1行に1つ）</span>
+            <div id="p-rows" class="rows"></div>
+            <button class="btn ghost" type="button" id="p-add">行を追加</button>
+          </div>
+        </div>
+        <div id="pane-num" role="tabpanel" aria-labelledby="tab-num" class="pane" hidden>
+          <p class="lead">自動で取れない数字（プロフィールクリックなど）を報告します。インスタのインサイトで確認した数字を入れてください。</p>
+          <div class="field"><label for="n-goal">どの目標の数字か</label><select id="n-goal"></select></div>
+          <div class="field"><label for="n-by">報告する人</label><select id="n-by"></select></div>
+          <div id="n-rows" class="rows"></div>
+        </div>
+        <div id="pane-consult" role="tabpanel" aria-labelledby="tab-consult" class="pane" hidden>
+          <p class="lead">報告・連絡ではなく「相談」です。次の更新で、桂がふだん使っている考え方の型を当てはめたヒントが、下の「相談と考え方のヒント」に載ります。</p>
+          <div class="field"><label for="c-name">名前</label><select id="c-name"></select></div>
+          <div class="field"><label for="c-task">関係するタスク</label><select id="c-task"></select></div>
+          <div class="field"><label for="c-body">相談したいこと</label>
+            <textarea id="c-body" placeholder="何が起きていて、どこで止まっているか。わかる範囲で書いてください。&#10;例：インタビューの出演者が2人しか集まらない。声をかけた人には「考えておく」と言われたまま。"></textarea></div>
+          <div class="field"><span class="lbl" id="c-want-l">してほしいこと</span>
+            <div class="wants" role="radiogroup" aria-labelledby="c-want-l">
+              <label><input type="radio" name="want" id="c-want-hint" value="考え方のヒントがほしい" checked>考え方のヒントがほしい</label>
+              <label><input type="radio" name="want" id="c-want-decide" value="桂に判断してほしい">桂に判断してほしい</label>
+              <label><input type="radio" name="want" id="c-want-help" value="手を貸してほしい">手を貸してほしい</label>
+            </div></div>
+        </div>
+      </form>
+      <div class="out">
+        <label for="out-text" class="lbl">Teamsに貼る文面</label>
+        <textarea id="out-text" readonly></textarea>
+        <div class="out-actions">
+          <button class="btn" type="button" id="copy">文面をコピー</button>
+          <span class="form-msg" id="copy-msg" role="status"></span>
+        </div>
+        <p class="muted" id="where"></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="slot" id="bottom"></div>
+</main>
+
+<footer class="wrap">
+  Teamsの報告・相談とインスタグラムの数値を12時間ごとに取得し、このページを更新しています。期限まで2日未満の未完了タスクは「期限間近」、期限を過ぎたものは「期限超過」と表示します。
+</footer>
+
+<script type="application/json" id="board-data">{"updatedAt":"2026-10-13T19:10:00+09:00","nextSync":"2026-10-14T08:00:00+09:00","teamsTarget":null,"periods":[{"start":"2026-10-13","end":"2026-10-24","issuedAt":"2026-10-13T18:30:00+09:00","source":"projects/オープンスクールマーケティング_第2シーズン/週次タスク/2026-10-13_タスク管理表と個人別担当.docx","lead":"今週はオンライン学校説明会の素材づくりと英語特典の撮影。来週のSNSは桂・りゅうき・みゆきの3人で動画を合計3本投稿します。","members":[{"name":"赤築 らいと","short":"らいと","role":"集客戦略 → 10/16から英語特典","tasks":[{"id":"r1","title":"オンライン学校説明会の集客戦略を1枚にまとめて桂へ提出（経路2〜3案の比較つき）","status":"todo","note":"提出日調整中"},{"id":"r2","title":"10/16から英語特典チームに合流し、撮影に協力","due":"2026-10-18","status":"todo"}]},{"name":"杉原 香蓮","short":"香蓮","role":"英語特典チーム リーダー","tasks":[{"id":"k1","title":"英語特典の出演者・撮影日・役割を調整（10/16からはらいとにも担当を渡す）","due":"2026-10-16","status":"doing"},{"id":"k2","title":"英語特典の撮影を終え、編集用の素材を共有","due":"2026-10-18","status":"doing"}]},{"name":"竹井 ゆま","short":"ゆま","role":"在校生Q&A","tasks":[{"id":"y1","title":"りおんと在校生Q&Aの質問を3〜5問に絞り、出演者3〜4人に声かけ","due":"2026-10-17","status":"doing"},{"id":"y2","title":"在校生Q&Aを横向き20〜30分撮影し、素材を桂へ送る","due":"2026-10-17","status":"doing"},{"id":"y3","title":"生徒実体験動画に出演（めれ・るかと日程調整）","due":"2026-10-18","status":"todo"}]},{"name":"西村 りおん","short":"りおん","role":"在校生Q&A","tasks":[{"id":"ri1","title":"ゆまと在校生Q&Aの質問設計・出演者調整・撮影","due":"2026-10-17","status":"doing"},{"id":"ri2","title":"在校生Q&Aの撮影素材を桂へ送る","due":"2026-10-17","status":"doing"}]},{"name":"中村 りゅうき","short":"りゅうき","role":"来週のSNS・一歩踏み出した話","tasks":[{"id":"ry1","title":"SNS動画の企画・撮影・編集・確認・投稿（桂・みゆきとチーム合計3本）","due":"2026-10-24","status":"todo","note":"10/18〜10/24に投稿。分担と投稿日は3人で決める","goal":"sns"},{"id":"ry2","title":"一歩踏み出した話：未提出のインタビュー録音を確認して桂へ送る","status":"todo","note":"旧期限10/10・新提出日は桂と調整／人数（計5人か）も確認"}]},{"name":"植田 みゆき","short":"みゆき","role":"英語特典・来週のSNS・一歩踏み出した話","tasks":[{"id":"m1","title":"英語特典：香蓮・るか・らいとと撮影し、素材を共有","due":"2026-10-18","status":"doing"},{"id":"m2","title":"SNS動画を桂・りゅうきとチーム合計3本投稿","due":"2026-10-24","status":"todo","note":"担当と投稿日は3人で決める","goal":"sns"},{"id":"m3","title":"一歩踏み出した話：インタビュー録音の提出状況を確認して桂へ送る","status":"todo","note":"旧期限10/10・新提出日と人数を桂に確認"}]},{"name":"西村 るか","short":"るか","role":"英語特典・生徒実体験動画","tasks":[{"id":"ru1","title":"英語特典：香蓮・みゆき・らいとと撮影","due":"2026-10-18","status":"doing"},{"id":"ru2","title":"生徒実体験動画：めれと撮影日・出演者・機材を調整して撮影し、素材を桂へ","due":"2026-10-18","status":"todo","note":"2件の撮影が重なる場合は香蓮・桂と調整"}]},{"name":"廣田 めれ","short":"めれ","role":"生徒実体験動画","tasks":[{"id":"me1","title":"撮影できる日と三脚・マイクの有無を桂へ返す","status":"todo"},{"id":"me2","title":"るかと生徒実体験動画を撮影し、素材を桂へ送る（出演：まなみさん・葉菜子さん・ゆま）","due":"2026-10-18","status":"todo"}]},{"name":"桂 治希","short":"桂","role":"全体調整・編集","tasks":[{"id":"h1","title":"SNS動画をりゅうき・みゆきとチーム合計3本投稿（投稿前に中谷さん・先生方・出演者の確認）","due":"2026-10-24","status":"todo","goal":"sns"},{"id":"h2","title":"らいとの戦略案を受けて、注力経路・申込目標・実行日程を決める","status":"todo","note":"戦略案の受け取り後"},{"id":"h3","title":"Q&A素材を完成版5分に編集し、生徒実体験動画も編集","status":"todo","note":"編集期限は素材の受領日をふまえて決める"},{"id":"h4","title":"ハイライト・LP・申込導線と全体の調整","status":"doing","note":"継続"}]}],"sns":{"instagram":{"account":"baikogakuin","updatedAt":"2026-10-13T18:40:00+09:00","postGoal":3,"postGoalNote":"10/18〜10/24にチーム合計3本の投稿が目標","postsInPeriod":[],"periodViews":10598,"viewTargetNote":"管理表では「再生数の数値目標は置かない」方針（10/13時点）","recentPosts":[{"date":"2026-10-10","title":"秋の入試説明会 一般公開スタート","views":13055,"url":"https://www.instagram.com/reel/DeT7Uhbv5w4/"},{"date":"2026-10-07","title":"入試説明会 申込スタート（3日で約80人）","views":9276,"url":"https://www.instagram.com/reel/DeMOMQ2plHv/"},{"date":"2026-10-05","title":"高Ⅱ 研修旅行（生徒が企画・運営）","views":24269,"url":"https://www.instagram.com/reel/DeHDSpmptPT/"},{"date":"2026-10-04","title":"梅光祭2026 ルール説明（VIVANT風）","views":6863,"url":"https://www.instagram.com/reel/DeEekdvv8Iu/"},{"date":"2026-10-03","title":"教育実習中の先生方に聞いてみた","views":5199,"url":"https://www.instagram.com/reel/DeB5VYiJ0zS/"},{"date":"2026-10-03","title":"梅光生に本音聞いてみた","views":6732,"url":"https://www.instagram.com/reel/DeBcZHnpH_c/"}],"dailyViews":[{"date":"2026-09-30","views":168511},{"date":"2026-10-01","views":92199},{"date":"2026-10-02","views":126049},{"date":"2026-10-03","views":78582},{"date":"2026-10-04","views":60036},{"date":"2026-10-05","views":70495},{"date":"2026-10-06","views":51789},{"date":"2026-10-07","views":33521},{"date":"2026-10-08","views":489125},{"date":"2026-10-09","views":97957},{"date":"2026-10-10","views":59686},{"date":"2026-10-11","views":58788},{"date":"2026-10-12","views":142952},{"date":"2026-10-13","views":10598}]}},"id":"2026-10-13","goals":[{"id":"sns","team":"SNSチーム","members":["桂","りゅうき","みゆき"],"note":"数値目標は桂が決め、やることはチームで決めて「行動計画」で報告する。","metrics":[{"key":"views","name":"再生数","unit":"回","target":null,"current":10598,"auto":"instagram.views","sourceNote":"自動取得（アカウント全体・期間合計）"},{"key":"profile_clicks","name":"プロフィールクリック","unit":"回","target":null,"current":null,"manual":true,"sourceNote":"チームの数値報告から"}],"plan":null}]}],"consults":[]}</script>
+<script>
+(() => {
+  let DATA = {};
+  try { DATA = JSON.parse(document.getElementById("board-data").textContent); } catch { DATA = {}; }
+  const periods = [...(DATA.periods || [])].sort((a, b) => String(b.start).localeCompare(String(a.start)));
+  const state = { sel: periods[0] ? periods[0].id : null, tab: "plan" };
+  const $ = (id) => document.getElementById(id);
+  const el = (tag, attrs, ...kids) => {
+    const n = document.createElement(tag);
+    if (attrs) for (const [k, v] of Object.entries(attrs)) {
+      if (v == null || v === false) continue;
+      if (k === "class") n.className = v;
+      else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
+      else n.setAttribute(k, v);
+    }
+    for (const k of kids.flat()) if (k != null && k !== false) n.append(k instanceof Node ? k : String(k));
+    return n;
+  };
+
+  const parseDay = (s) => { if (!s) return null; const [y, m, d] = String(s).slice(0, 10).split("-").map(Number); return y ? new Date(y, m - 1, d) : null; };
+  const endOfDay = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59);
+  const WD = ["日", "月", "火", "水", "木", "金", "土"];
+  const fmtDay = (d) => `${d.getMonth() + 1}/${d.getDate()}`;
+  const fmtDayW = (d) => `${fmtDay(d)}(${WD[d.getDay()]})`;
+  const fmtStamp = (s) => { const d = new Date(s); if (isNaN(d)) return ""; return `${fmtDayW(d)} ${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`; };
+  const fmtN = (n) => (typeof n === "number" ? n.toLocaleString("ja-JP") : "—");
+  const safeUrl = (u) => { try { const x = new URL(u); return /^https?:$/.test(x.protocol) ? x.href : null; } catch { return null; } };
+
+  const LABEL = { done: "完了", doing: "進行中", blocked: "要対応", late: "期限超過", risk: "期限間近", todo: "未着手" };
+  function statusOf(task, now) {
+    if (task.status === "done") return "done";
+    if (task.status === "blocked") return "blocked";
+    const due = parseDay(task.due);
+    if (due) { if (now > endOfDay(due)) return "late"; if (due - now < 2 * 86400000) return "risk"; }
+    return task.status === "doing" ? "doing" : "todo";
+  }
+  function tally(p, now) {
+    let total = 0, done = 0, blocked = 0, late = 0, risk = 0;
+    for (const m of p.members || []) for (const t of m.tasks || []) {
+      total++; const s = statusOf(t, now);
+      if (s === "done") done++; else if (s === "blocked") blocked++; else if (s === "late") late++; else if (s === "risk") risk++;
+    }
+    return { total, done, blocked, late, risk, rate: total ? Math.round((done / total) * 100) : 0 };
+  }
+  const current = () => periods.find((p) => p.id === state.sel) || periods[0] || null;
+  const latest = () => periods[0] || null;
+  const periodLabel = (p) => { const s = parseDay(p.start), e = parseDay(p.end); return s && e ? `${s.getFullYear()}年 ${fmtDay(s)}〜${fmtDay(e)}` : (p.id || "期間"); };
+  const chip = (s, text) => el("span", { class: "chip " + s }, text || LABEL[s]);
+  const shortName = (m) => m.short || m.name;
+  const goalsOf = (p) => (p && p.goals) || [];
+  const goalName = (p, id) => { const g = goalsOf(p).find((x) => x.id === id); return g ? g.team : ""; };
+
+  // ---------- header ----------
+  function renderHeader() {
+    const sel = $("week");
+    if (!periods.length) { sel.replaceChildren(el("option", null, "まだ期間がありません")); sel.disabled = true; }
+    else sel.replaceChildren(...periods.map((p, i) => el("option", { value: p.id, selected: p.id === state.sel ? "selected" : null }, periodLabel(p) + (i === 0 ? "（現在）" : ""))));
+    $("sync").textContent = DATA.updatedAt ? `最終更新：${fmtStamp(DATA.updatedAt)}` + (DATA.nextSync ? ` ／ 次回：${fmtStamp(DATA.nextSync)}` : "") : "最終更新：—";
+  }
+
+  // ---------- top ----------
+  function renderAlerts(p, now) {
+    const items = [];
+    for (const c of DATA.consults || []) if (c.status !== "resolved" && !(c.hint && c.hint.text))
+      items.push({ rank: 0, c: chip("open", "相談"), who: c.memberName || "", what: String(c.body || "").split("\n")[0].slice(0, 60), detail: `ヒント作成待ち・${fmtStamp(c.createdAt)}` });
+    for (const g of goalsOf(p)) if (!g.plan || !g.plan.reportedAt)
+      items.push({ rank: 1, c: chip("open", "計画未提出"), who: g.team, what: "数値目標に対する行動計画が未提出です", detail: (g.members || []).join("・") });
+    for (const m of p.members || []) for (const t of m.tasks || []) {
+      const s = statusOf(t, now);
+      if (s === "blocked") items.push({ rank: 2, c: chip(s), who: shortName(m), what: t.title, detail: t.blocker ? `「${t.blocker}」` : "本人から課題の報告あり" });
+      else if (s === "late") items.push({ rank: 3, c: chip(s), who: shortName(m), what: t.title, detail: `期限 ${fmtDayW(parseDay(t.due))} を超過` });
+      else if (s === "risk") items.push({ rank: 4, c: chip(s), who: shortName(m), what: t.title, detail: `期限 ${fmtDayW(parseDay(t.due))}` });
+    }
+    items.sort((a, b) => a.rank - b.rank);
+    const head = el("h2", null, "要対応事項", el("small", null, items.length ? `${items.length}件` : ""));
+    if (!items.length) return el("section", null, head, el("div", { class: "allclear" }, "対応が必要な項目はありません。"));
+    return el("section", null, head, el("div", { class: "alerts" }, items.map((a) => el("div", { class: "alert" }, a.c,
+      el("div", { class: "what" }, el("span", { class: "who" }, a.who), "　", a.what), el("div", { class: "detail" }, a.detail)))));
+  }
+
+  function renderKpis(tl) {
+    const kpi = (cls, k, v, extra) => el("div", { class: "kpi " + cls }, el("div", { class: "k" }, k), v, extra || null);
+    return el("section", { "aria-label": "期間の数字" }, el("div", { class: "kpis" },
+      kpi("lead", "チーム完了率", el("div", { class: "v" }, String(tl.rate), el("small", null, "%")), el("div", { class: "bar" }, el("i", { style: `width:${tl.rate}%` }))),
+      kpi("", "完了タスク", el("div", { class: "v" }, String(tl.done), el("small", null, ` / ${tl.total}`))),
+      kpi("", "要対応", el("div", { class: "v", style: tl.blocked ? "color:var(--alert)" : null }, String(tl.blocked), el("small", null, " 件"))),
+      kpi("", "期限超過・間近", el("div", { class: "v", style: (tl.late + tl.risk) ? "color:var(--gold)" : null }, String(tl.late + tl.risk), el("small", null, " 件")))));
+  }
+
+  function renderGoals(p, now) {
+    const gs = goalsOf(p);
+    if (!gs.length) return null;
+    const cards = gs.map((g) => {
+      const tasks = [];
+      for (const m of p.members || []) for (const t of m.tasks || []) if (t.goal === g.id) tasks.push({ m, t });
+      const done = tasks.filter((x) => x.t.status === "done").length;
+      const metrics = (g.metrics || []).map((mt) => {
+        const has = typeof mt.target === "number" && mt.target > 0;
+        const rate = has && typeof mt.current === "number" ? Math.min(100, Math.round((mt.current / mt.target) * 100)) : 0;
+        return el("div", { class: "metric" },
+          el("div", { class: "mk" }, mt.name),
+          el("div", { class: "mv" }, fmtN(mt.current), el("small", null, has ? ` / ${fmtN(mt.target)}${mt.unit || ""}` : ` ${mt.unit || ""}`)),
+          has ? el("div", { class: "bar" }, el("i", { style: `width:${rate}%` })) : null,
+          el("div", { class: "note" }, [has ? `目標の ${rate}%` : "目標値：未設定", mt.sourceNote].filter(Boolean).join("・")));
+      });
+      const plan = g.plan && g.plan.reportedAt
+        ? el("div", { class: "plan" }, chip("done", "計画あり"), ` ${g.plan.reportedBy || ""}が ${fmtStamp(g.plan.reportedAt)} に報告・やること ${done} / ${tasks.length} 件完了`)
+        : el("div", { class: "plan" }, chip("open", "計画未提出"), " チームで「やること」を決めて、下の「Teamsに送る ＞ 行動計画」から報告してください");
+      return el("article", { class: "goal-card" },
+        el("header", null, el("span", { class: "gname" }, g.team), el("span", { class: "gmem" }, (g.members || []).join("・"))),
+        g.note ? el("p", { class: "gnote" }, g.note) : null,
+        el("div", { class: "metrics" }, metrics),
+        plan);
+    });
+    return el("section", null, el("h2", null, "チームの数値目標", el("small", null, "数字を決めるのは桂、やることを決めるのはチーム")), el("div", { class: "goals" }, cards));
+  }
+
+  function renderPeople(p, now) {
+    const cards = (p.members || []).map((m) => {
+      const tasks = m.tasks || [];
+      const done = tasks.filter((t) => t.status === "done").length;
+      const rate = tasks.length ? Math.round((done / tasks.length) * 100) : 0;
+      return el("article", { class: "person" },
+        el("header", null, el("span", { class: "name" }, m.name, m.role ? el("small", null, m.role) : null),
+          el("span", { class: "rate" }, `${rate}%`, el("small", null, `${done} / ${tasks.length} 件`))),
+        el("div", { class: "bar" }, el("i", { style: `width:${rate}%` })),
+        el("ul", { class: "tasks" }, tasks.map((t) => {
+          const s = statusOf(t, now);
+          const meta = [];
+          if (t.goal) meta.push(`目標：${goalName(p, t.goal)}`);
+          if (s === "done" && t.completedAt) meta.push(`完了 ${fmtStamp(t.completedAt)}`);
+          if (s !== "done" && t.due) meta.push(`期限 ${fmtDayW(parseDay(t.due))}`);
+          if (s !== "done" && t.note) meta.push(t.note);
+          const link = t.evidence && safeUrl(t.evidence);
+          return el("li", { class: "task " + s }, chip(s), el("span", { class: "t" }, t.title),
+            (meta.length || link) ? el("span", { class: "m" }, meta.join("・"), link ? [meta.length ? "・" : "", el("a", { href: link, target: "_blank", rel: "noopener" }, "成果物を見る")] : null) : null,
+            (s === "blocked" && t.blocker) ? el("span", { class: "m blocker" }, `「${t.blocker}」`) : null);
+        })));
+    });
+    return el("section", null, el("h2", null, "メンバー別タスク", el("small", null, `${(p.members || []).length}人`)),
+      cards.length ? el("div", { class: "people" }, cards) : el("div", { class: "empty" }, "この期間のタスクはまだ登録されていません。"));
+  }
+
+  // ---------- bottom ----------
+  function renderConsults() {
+    const list = [...(DATA.consults || [])].sort((a, b) => ((a.status === "resolved") - (b.status === "resolved")) || String(b.createdAt).localeCompare(String(a.createdAt))).slice(0, 20);
+    const body = list.length ? el("div", { class: "consults" }, list.map((c) => el("article", { class: "consult" },
+      el("div", { class: "head" },
+        chip(c.status === "resolved" ? "resolved" : "open", c.status === "resolved" ? "対応済み" : (c.hint && c.hint.text ? "ヒントあり" : "作成待ち")),
+        el("span", { class: "who" }, c.memberName || ""),
+        c.want ? chip("want", c.want) : null,
+        el("span", { class: "when" }, fmtStamp(c.createdAt))),
+      c.task ? el("div", { class: "rel" }, `関係するタスク：${c.task}`) : null,
+      el("p", { class: "body" }, c.body || ""),
+      c.hint && c.hint.text ? el("div", { class: "hint" }, el("span", { class: "ttl" }, "考え方のヒント"), el("p", { class: "txt" }, c.hint.text)) : null,
+      c.reply && c.reply.text ? el("div", { class: "reply" }, el("b", null, "桂より　"), c.reply.text) : null)))
+      : el("p", { class: "muted" }, "相談はまだありません。上の「Teamsに送る ＞ 相談」から送れます。");
+    return el("section", null, el("h2", null, "相談と考え方のヒント", el("small", null, "桂の考え方の型を当てはめたヒントです。答えは自分で決めましょう")), body);
+  }
+
+  function svgChart(points, opts) {
+    const W = 520, H = 190, padL = opts.padL || 44, padR = 8, padT = 22, padB = 28;
+    const iw = W - padL - padR, ih = H - padT - padB;
+    const max = opts.max || Math.max(1, ...points.map((p) => p.value || 0));
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.setAttribute("role", "img"); svg.setAttribute("aria-label", opts.aria);
+    const add = (tag, a, text) => { const n = document.createElementNS(svg.namespaceURI, tag); for (const k in a) n.setAttribute(k, a[k]); if (text != null) n.textContent = text; svg.append(n); return n; };
+    for (const f of [0, 0.5, 1]) {
+      const y = padT + ih - f * ih;
+      add("line", { x1: padL, x2: W - padR, y1: y, y2: y, stroke: "var(--line)", "stroke-width": 1, "stroke-dasharray": f ? "3 4" : "" });
+      add("text", { x: padL - 6, y: y + 4, "text-anchor": "end", "font-size": 11, fill: "var(--muted)", "font-family": "var(--font)" }, opts.tick(max * f));
+    }
+    const slot = iw / Math.max(points.length, 1), bw = Math.min(opts.bw || 34, slot * 0.62);
+    points.forEach((p, i) => {
+      const v = p.value || 0, x = padL + slot * i + (slot - bw) / 2, h = (v / max) * ih, y = padT + ih - h;
+      add("rect", { x, y, width: bw, height: Math.max(h, 2), fill: p.hi ? "var(--gold)" : "var(--navy)", opacity: p.hi ? 1 : 0.35 });
+      if (opts.showValues) add("text", { x: x + bw / 2, y: y - 6, "text-anchor": "middle", "font-size": 11, fill: "var(--ink)", "font-family": "var(--font)", "font-weight": 700 }, opts.valueText(v));
+      if (opts.labelEvery == null || i % opts.labelEvery === 0 || i === points.length - 1)
+        add("text", { x: x + bw / 2, y: H - 8, "text-anchor": "middle", "font-size": 11, fill: "var(--muted)", "font-family": "var(--font)" }, p.label);
+    });
+    return svg;
+  }
+
+  function renderInstagram(p) {
+    const ig = p.sns && p.sns.instagram;
+    if (!ig) return null;
+    const posted = (ig.postsInPeriod || []).length, goalN = ig.postGoal || 0;
+    const postRate = goalN ? Math.min(100, Math.round((posted / goalN) * 100)) : 0;
+    const vt = ig.viewTarget, viewRate = vt ? Math.min(100, Math.round(((ig.periodViews || 0) / vt) * 100)) : 0;
+    const postCard = el("div", { class: "panel goal" }, el("div", { class: "k" }, "期間中の投稿本数"),
+      el("div", { class: "v" }, String(posted), el("small", null, goalN ? ` / ${goalN} 本` : " 本")),
+      goalN ? el("div", { class: "bar" }, el("i", { style: `width:${postRate}%` })) : null, el("div", { class: "note" }, ig.postGoalNote || ""));
+    const viewCard = el("div", { class: "panel goal" }, el("div", { class: "k" }, "期間中の再生数"),
+      el("div", { class: "v" }, fmtN(ig.periodViews), vt ? el("small", null, ` / ${fmtN(vt)}`) : null),
+      vt ? el("div", { class: "bar" }, el("i", { style: `width:${viewRate}%` })) : null,
+      el("div", { class: "note" }, vt ? `目標の ${viewRate}%` : "再生数目標：未設定"), ig.viewTargetNote ? el("div", { class: "note" }, ig.viewTargetNote) : null);
+    const recent = (ig.recentPosts || []).slice(0, 6), topViews = Math.max(0, ...recent.map((x) => x.views || 0));
+    const recentCard = el("div", { class: "panel recent" }, el("h2", null, "直近の投稿", el("small", null, "再生数")),
+      recent.length ? el("ul", { class: "posts" }, recent.map((x) => { const link = safeUrl(x.url), d = parseDay(x.date);
+        return el("li", { class: "post" + (x.views === topViews && topViews ? " top" : "") }, el("span", { class: "d" }, d ? fmtDay(d) : ""),
+          el("span", { class: "ttl" }, link ? el("a", { href: link, target: "_blank", rel: "noopener" }, x.title) : x.title), el("span", { class: "vw" }, fmtN(x.views))); }))
+        : el("p", { class: "muted" }, "該当する投稿はありません。"));
+    const daily = (ig.dailyViews || []).slice(-14);
+    const chart = daily.length ? el("div", { class: "panel chart" }, el("h2", null, "アカウント再生数", el("small", null, "日別・直近14日")),
+      svgChart(daily.map((d) => { const dd = parseDay(d.date); return { label: dd ? fmtDay(dd) : "", value: d.views, hi: d.date >= p.start }; }),
+        { aria: "日別の再生数", tick: (v) => v >= 10000 ? `${Math.round(v / 1000)}k` : String(Math.round(v)), labelEvery: 2, padL: 40 })) : null;
+    return el("section", null, el("h2", null, "インスタグラム", el("small", null, `@${ig.account || ""}${ig.updatedAt ? `・${fmtStamp(ig.updatedAt)} 時点` : ""}`)),
+      el("div", { style: "display:grid;gap:24px" }, el("div", { class: "ig" }, postCard, viewCard, recentCard), chart));
+  }
+
+  function renderTrend(now) {
+    const ws = periods.slice(0, 8).reverse();
+    return el("div", { class: "panel chart" }, el("h2", null, "完了率の推移", el("small", null, "期間の初日で表示")),
+      svgChart(ws.map((w) => { const s = parseDay(w.start); return { label: s ? fmtDay(s) : "", value: tally(w, now).rate, hi: w.id === state.sel }; }),
+        { aria: "期間ごとのチーム完了率", max: 100, tick: (v) => `${Math.round(v)}%`, showValues: true, valueText: (v) => `${v}%`, bw: 40 }));
+  }
+  function renderSummary(p) {
+    const sm = p.summary;
+    return el("div", { class: "panel" }, el("h2", null, "期間総括", el("small", null, sm && sm.generatedAt ? `${fmtStamp(sm.generatedAt)} 作成` : "")),
+      sm && sm.text ? el("p", { class: "summary-text" }, sm.text) : el("p", { class: "muted" }, "期間終了後の月曜朝に、完了率・個人別の状況・持ち越しタスク・数値目標の結果を記載します。"));
+  }
+
+  function render() {
+    renderHeader();
+    const p = current();
+    if (!p) { $("top").replaceChildren(el("div", { class: "empty" }, el("strong", null, "まだタスクが登録されていません"), "期間のはじめにタスクを出すと、次の更新でここに並びます。")); $("bottom").replaceChildren(); return; }
+    const now = new Date();
+    $("top").replaceChildren(p.lead ? el("div", { class: "notice" }, p.lead) : "", renderAlerts(p, now), renderKpis(tally(p, now)), renderGoals(p, now) || "", renderPeople(p, now));
+    $("bottom").replaceChildren(renderConsults(), renderInstagram(p) || "", el("div", { class: "duo" }, renderTrend(now), renderSummary(p)));
+  }
+  $("week").addEventListener("change", (e) => { state.sel = e.target.value; render(); });
+
+  // ---------- Teamsに送る ----------
+  const L = latest();
+  const memberNames = L ? (L.members || []).map((m) => m.name) : [];
+  const fill = (sel, opts, first) => { sel.replaceChildren(...(first ? [el("option", { value: "" }, first)] : []), ...opts.map(([v, t]) => el("option", { value: v }, t))); };
+  const todayStr = () => { const d = new Date(); return `${d.getMonth() + 1}/${d.getDate()}`; };
+  const fmtInputDate = (v) => { const d = parseDay(v); return d ? fmtDay(d) : ""; };
+
+  fill($("p-goal"), goalsOf(L).map((g) => [g.id, g.team]), goalsOf(L).length ? null : "目標がまだありません");
+  fill($("n-goal"), goalsOf(L).map((g) => [g.id, g.team]), goalsOf(L).length ? null : "目標がまだありません");
+  for (const id of ["p-by", "n-by", "c-name"]) fill($(id), memberNames.map((n) => [n, n]), "選んでください");
+
+  let rowSeq = 0;
+  function addPlanRow() {
+    if ($("p-rows").children.length >= 10) return;
+    const i = ++rowSeq;
+    const g = goalsOf(L).find((x) => x.id === $("p-goal").value);
+    const names = g && g.members && g.members.length ? memberNames.filter((n) => g.members.some((s) => n.includes(s))) : memberNames;
+    const who = el("select", { id: `p-who-${i}`, "aria-label": "担当" }, el("option", { value: "" }, "担当"), ...(names.length ? names : memberNames).map((n) => el("option", { value: n }, n)));
+    const what = el("input", { type: "text", id: `p-what-${i}`, placeholder: "やること（例：リール企画を3案出す）", "aria-label": "やること" });
+    const due = el("input", { type: "date", id: `p-due-${i}`, "aria-label": "期限" });
+    const row = el("div", { class: "row" }, who, what, due,
+      el("button", { class: "btn ghost x", type: "button", "aria-label": "この行を消す", onclick: () => { row.remove(); build(); } }, "×"));
+    for (const n of [who, what, due]) n.addEventListener("input", build);
+    $("p-rows").append(row);
+  }
+  function resetPlanRows() { $("p-rows").replaceChildren(); addPlanRow(); addPlanRow(); addPlanRow(); }
+  function buildNumRows() {
+    const g = goalsOf(L).find((x) => x.id === $("n-goal").value);
+    const ms = g ? (g.metrics || []).filter((m) => m.manual) : [];
+    $("n-rows").replaceChildren(...(ms.length ? ms.map((m, i) => el("div", { class: "field" },
+      el("label", { for: `n-v-${i}` }, `${m.name}${m.unit ? `（${m.unit}）` : ""}`),
+      el("input", { type: "text", inputmode: "numeric", id: `n-v-${i}`, "data-name": m.name, placeholder: "数字を入力", oninput: build })))
+      : [el("p", { class: "muted" }, "この目標には、報告が必要な数字はありません（自動で取得しています）。")]));
+  }
+  $("p-goal").addEventListener("change", () => { resetPlanRows(); build(); });
+  $("n-goal").addEventListener("change", () => { buildNumRows(); build(); });
+  $("p-add").addEventListener("click", () => { addPlanRow(); });
+  $("c-name").addEventListener("change", () => {
+    const m = L && (L.members || []).find((x) => x.name === $("c-name").value);
+    fill($("c-task"), (m ? m.tasks || [] : []).map((t) => [t.title, t.title]), "特定のタスクではない");
+    build();
+  });
+  fill($("c-task"), [], "特定のタスクではない");
+  $("compose").addEventListener("input", build);
+  $("compose").addEventListener("change", build);
+  $("compose").addEventListener("submit", (e) => e.preventDefault());
+
+  function build() {
+    let text = "";
+    if (state.tab === "plan") {
+      const g = goalsOf(L).find((x) => x.id === $("p-goal").value);
+      const metricLine = g ? (g.metrics || []).map((m) => `${m.name}${typeof m.target === "number" ? ` ${fmtN(m.target)}${m.unit || ""}` : ""}`).join("／") : "";
+      const rows = [...$("p-rows").children].map((r) => { const [who, what, due] = r.querySelectorAll("select, input"); return { who: who.value, what: what.value.trim(), due: fmtInputDate(due.value) }; }).filter((r) => r.what);
+      text = `【行動計画】\n目標：${g ? g.team : ""}${metricLine ? `（${metricLine}）` : ""}\n報告者：${$("p-by").value}\n` +
+        (rows.length ? rows.map((r, i) => `${i + 1}. 担当：${r.who || "未定"}｜やること：${r.what}｜期限：${r.due || "未定"}`).join("\n") : "1. 担当：｜やること：｜期限：");
+    } else if (state.tab === "num") {
+      const g = goalsOf(L).find((x) => x.id === $("n-goal").value);
+      const vals = [...$("n-rows").querySelectorAll("input")].map((i) => `${i.dataset.name}：${i.value.trim() || "（未入力）"}`);
+      text = `【数値報告】\n目標：${g ? g.team : ""}\n報告者：${$("n-by").value}\n${vals.join("\n")}\n確認日：${todayStr()}`;
+    } else {
+      const want = (document.querySelector('input[name="want"]:checked') || {}).value || "";
+      text = `【相談】\n名前：${$("c-name").value}\n関係するタスク：${$("c-task").value || "特定のタスクではない"}\nしてほしいこと：${want}\n内容：\n${$("c-body").value.trim()}`;
+    }
+    $("out-text").value = text;
+    $("copy-msg").textContent = "";
+  }
+
+  function selectTab(name) {
+    state.tab = name;
+    for (const [t, p] of [["plan", "pane-plan"], ["num", "pane-num"], ["consult", "pane-consult"]]) {
+      const tab = $(`tab-${t}`);
+      tab.setAttribute("aria-selected", String(t === name));
+      tab.tabIndex = t === name ? 0 : -1;
+      $(p).hidden = t !== name;
+    }
+    build();
+  }
+  for (const t of ["plan", "num", "consult"]) $(`tab-${t}`).addEventListener("click", () => selectTab(t));
+
+  $("copy").addEventListener("click", () => {
+    const ta = $("out-text"), msg = $("copy-msg");
+    const done = () => { msg.textContent = "コピーしました。Teamsに貼って送ってください。"; };
+    const fallback = () => { ta.focus(); ta.select(); msg.textContent = "文面を選択しました。Ctrl+C（スマホは長押し）でコピーしてください。"; };
+    try { navigator.clipboard.writeText(ta.value).then(done, fallback); } catch { fallback(); }
+  });
+  $("where").textContent = DATA.teamsTarget ? `送り先：Teamsの「${DATA.teamsTarget}」` : "送り先：Teamsのチームのチャット（桂が指定する場所）";
+
+  resetPlanRows();
+  buildNumRows();
+  selectTab("plan");
+  render();
+})();
+</script>
+
+</body></html>
